@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "../docs/db/ERD.svg"
+// }
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  BASEUSER
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  phone        String   @unique
+  email        String?  @unique
+  password     String?
+  fullName     String?  @map("full_name")
+  role         Role     @default(BASEUSER)
+  nationalId   String?
+  nationalCard String?
+  bankInfo     Json?    @map("bank_info") @db.JsonB
+  address      String?
+  postalCode   String?  @map("postal_code")
+  tokenId      String?  @map("token_id") @db.Uuid
+  profile      Profile?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+}
+
+model Profile {
+  id          Int      @id @default(autoincrement())
+  profileId   String   @unique @map("profile_id")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int      @unique
+  avatar      String?
+  bio         String?
+  contentType String?
+  socialLinks Json?    @map("social_links") @db.JsonB
+  displayName String?  @map("display_name")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+}

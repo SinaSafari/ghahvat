@@ -1,0 +1,14 @@
+.tmp
+!/*.js
+/tests/format/**/*.js
+/tests/integration/cli/
+
+!/**/.eslintrc.js
+
+/coverage/
+/dist*/
+**/node_modules/**
+**/.yarn/**
+**/.pnp.*
+
+/cypress/**

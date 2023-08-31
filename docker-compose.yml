@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  pg:
+    image: postgres:15.4-alpine3.18
+    container_name: gbmpg
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: gbmuser
+      POSTGRES_DB: gbmdb
+
+  redis:
+    image: redis/redis-stack:7.2.0-v0
+    container_name: gbmredis
+    ports:
+      - 6379:6379
+      - 8001:8001
+
