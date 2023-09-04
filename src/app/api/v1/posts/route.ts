@@ -1,4 +1,4 @@
-import { redisClient, redisConnect } from "@/server/auth/redis";
+import { redisClient, redisConnect } from "@/server/redis";
 import { NextResponse } from "next/server";
 import { Schema, Repository, EntityId } from "redis-om";
 

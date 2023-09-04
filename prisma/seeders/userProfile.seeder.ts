@@ -37,6 +37,20 @@ async function userFactory(): Promise<Prisma.UserCreateArgs["data"]> {
         contentType: "podcaster",
         socialLinks: [{ type: "youtube", url: faker.internet.url() }],
         avatar: faker.internet.avatar(),
+        posts: {
+          create: Array.from({ length: Math.floor(Math.random() * 6) }).map(
+            (_) => {
+              return {
+                content: faker.lorem.words({ min: 3, max: 20 }),
+                photos: Array.from({
+                  length: Math.floor(Math.random() * 5),
+                }).map((_) => {
+                  return faker.image.urlPicsumPhotos({ width: 128 });
+                }),
+              };
+            }
+          ),
+        },
       },
     },
   };

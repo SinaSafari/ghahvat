@@ -36,18 +36,38 @@ model User {
   profile      Profile?
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([phone])
+  @@map("users")
 }
 
 model Profile {
   id          Int      @id @default(autoincrement())
   profileId   String   @unique @map("profile_id")
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int      @unique
+  userId      Int      @unique @map("user_id")
   avatar      String?
   bio         String?
-  contentType String?
+  contentType String?  @map("content_type")
   socialLinks Json?    @map("social_links") @db.JsonB
   displayName String?  @map("display_name")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+  posts       Post[]
+
+  @@index([profileId])
+  @@map("profiles")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  rid       String?
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId Int      @map("profile_id")
+  content   String?
+  photos    String[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("posts")
 }
